@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Cámara</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #111;
+        }
+
+        .scanner-container {
+            width: 350px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .scanner-title {
+            margin-bottom: 15px;
+        }
+
+        .scanner-video {
+            width: 100%;
+            border-radius: 10px;
+            background: #000;
+        }
+
+        .scanner-button {
+            margin-top: 15px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #111;
+            color: white;
+            cursor: pointer;
+        }
+
+        .scanner-result {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scanner-container">
+
+        <h2 class="scanner-title">
+            Escáner
+        </h2>
+
+        <video
+            class="scanner-video"
+            id="scannerVideo"
+            autoplay
+            playsinline>
+        </video>
+
+        <button
+            class="scanner-button"
+            id="scannerButton">
+            Activar cámara
+        </button>
+
+        <p
+            class="scanner-result"
+            id="scannerResult">
+            Cámara apagada
+        </p>
+
+    </div>
+
+
+    <script>
+        const video = document.getElementById("scannerVideo");
+        const button = document.getElementById("scannerButton");
+        const result = document.getElementById("scannerResult");
+
+        button.addEventListener("click", async () => {
+
+            try {
+
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "environment"
+                    }
+                });
+
+                video.srcObject = stream;
+
+                result.textContent = "Cámara activada";
+
+            } catch (error) {
+
+                result.textContent = "No se pudo acceder a la cámara";
+
+                console.error(error);
+            }
+
+        });
+    </script>
+
+</body>
+</html>
